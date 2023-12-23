@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace Task3.DataModel;
 
 
@@ -62,5 +64,33 @@ public class Wind
 	public double speed { get; set; }
 	public int deg { get; set; }
 	public double gust { get; set; }
+}
+
+public class OpenWeatherMap : Data
+{
+	
+	public OpenWeatherMap(string response)
+	{
+		var ast = JsonConvert.DeserializeObject<Root>(response);
+		if (ast is not null)
+		{
+			TemperatureC = ast.main.temp;
+			Cloudiness = ast.clouds.all;
+			Humidity = ast.main.humidity;
+			WindDirection = GetDirectionFromDegrees(ast.wind.deg);
+			WindSpeed = ast.wind.speed;
+		}
+		else
+		{
+			throw new ArgumentException("Invalid OpenWeatherMap's response structure");
+		}
+	}
+	
+	private string GetDirectionFromDegrees(double degrees)
+	{
+		string[] directions = { "North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West", "North" };
+		return directions[(int)Math.Round(((degrees % 360) / 45))];
+	}
+
 }
 
