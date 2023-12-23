@@ -3,7 +3,6 @@ using Task2;
 public class MyTask<TResult> : IMyTask<TResult> {
 	private volatile Exception _taskExecutionException;
 	private Func<TResult> _taskFunc;
-	private readonly object _lock = new object();
 
 	public bool HasContinuationTask => ContinuationTask != null;
 	private bool HasFailed => _taskExecutionException != null;
@@ -19,9 +18,7 @@ public class MyTask<TResult> : IMyTask<TResult> {
 				throw new AggregateException(_taskExecutionException);
 			}
 
-			lock (_lock) {
-				return _result;
-			}
+			return _result;
 		}
 	}
 	
@@ -43,9 +40,7 @@ public class MyTask<TResult> : IMyTask<TResult> {
 	public void Execute() {
 		try {
 			TResult result = _taskFunc.Invoke();
-			lock (_lock) {
-				_result = result;
-			}
+			_result = result;
 			_isCompleted = true;
 		}
 		catch (Exception e) {
