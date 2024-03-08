@@ -1,0 +1,22 @@
+# This is a generated file. Not intended for manual editing.
+version: "2"
+services:
+  app:
+    build:
+      context: "/home/andrew/RiderProjects/spbu-mm-dotnet-introduction-my/Task3"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net6.0/Task3.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "task3:dev"
+    ports: []
+    volumes:
+    - "/home/andrew/.nuget/packages:/root/.nuget/packages"
+    - "/home/andrew/RiderProjects/spbu-mm-dotnet-introduction-my/Task3:/app:rw"
+    - "/home/andrew/RiderProjects/spbu-mm-dotnet-introduction-my/Task3:/src:rw"
+    working_dir: "/app"
