@@ -25,6 +25,7 @@
     <setting file="file://$PROJECT_DIR$/Services/Stormglass.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Tomorrow.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -163,13 +164,14 @@
       <workItem from="1709818325934" duration="33270000" />
       <workItem from="1709886285223" duration="22669000" />
       <workItem from="1709911976406" duration="19000" />
-      <workItem from="1709912759418" duration="4785000" />
+      <workItem from="1709912759418" duration="5670000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

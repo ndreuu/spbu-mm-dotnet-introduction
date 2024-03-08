@@ -4,37 +4,41 @@ using Task3.Services;
 
 namespace Task3.Controllers;
 
-
+/// <inheritdoc />
 [ApiController]
 [Route("/api/")]
 public class WeatherForecastController : ControllerBase
 {
 	private const string Lat = "59.9343";
 	private const string Lon = "30.3351";
-	private readonly string? apiKeyTomorrow = Environment.GetEnvironmentVariable("TOMORROW_API_KEY"); 
-	private readonly string? apiKeyStormglass = Environment.GetEnvironmentVariable("STORMGLASS_API_KEY"); 
-	private Dictionary<string, DataPretty> GetWeatherViaApi(string source)
+	private readonly string? _apiKeyTomorrow = Environment.GetEnvironmentVariable("TOMORROW_API_KEY"); 
+	private readonly string? _apiKeyStormglass = Environment.GetEnvironmentVariable("STORMGLASS_API_KEY"); 
+	private Dictionary<string, DataPretty> GetWeatherViaApi(string? source)
 	{
 		Dictionary<string, DataPretty> acc = new Dictionary<string, DataPretty>();
 		if (source == "Stormglass")
 		{
-			Stormglass service = new Stormglass(new UrlArgs(Lat, Lon, apiKey: apiKeyStormglass));
+			Stormglass service = new Stormglass(new UrlArgs(Lat, Lon, apiKey: _apiKeyStormglass));
 			acc.Add(service.Name(), new DataPretty(service.Info()));
+			return acc;
 		}
-		else if (source == "Tomorrow")
+		if (source == "Tomorrow")
 		{
-			Tomorrow service = new Tomorrow(new UrlArgs(Lat, Lon, apiKey: apiKeyTomorrow));
+			Tomorrow service = new Tomorrow(new UrlArgs(Lat, Lon, apiKey: _apiKeyTomorrow));
 			acc.Add(service.Name(), new DataPretty(service.Info()));
+			return acc;
 		}
-		else if (source == "All")
+		if (source == "All")
 		{
-			Stormglass stormglass = new Stormglass(new UrlArgs(Lat, Lon, apiKey: apiKeyStormglass));
-			Tomorrow tomorrow = new Tomorrow(new UrlArgs(Lat, Lon, apiKey: apiKeyTomorrow));
-			acc.Add(stormglass.Name(), new DataPretty(stormglass.Info()));
-			acc.Add(tomorrow.Name(), new DataPretty(tomorrow.Info()));
+			Stormglass service1 = new Stormglass(new UrlArgs(Lat, Lon, apiKey: _apiKeyStormglass));
+			Tomorrow service2 = new Tomorrow(new UrlArgs(Lat, Lon, apiKey: _apiKeyTomorrow));
+			acc.Add(service1.Name(), new DataPretty(service1.Info()));
+			acc.Add(service2.Name(), new DataPretty(service2.Info()));
+			return acc;
+
 		}
 
-		return acc;
+		throw new Exception("unknown service");
 	}	
 
 	/// <summary>
@@ -48,10 +52,6 @@ public class WeatherForecastController : ControllerBase
 	{
 		try
 		{
-			if (source is null || source != "Stormglass" && source != "Tomorrow" && source != "All")
-			{
-				throw new Exception("unknown service");
-			}  
 			var weatherData = GetWeatherViaApi(source);
 			return Ok(weatherData);
 		}
