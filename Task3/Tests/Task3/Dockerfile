@@ -1,10 +1,12 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+﻿ARG TOMORROW_API_KEY
+ARG STORMGLASS_API_KEY
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-ENV TOMORROW_API_KEY="IytelRstAkRpEVPfmZc8OxX3Bsdr7DvR"
-ENV STORMGLASS_API_KEY="c442e7bc-dd40-11ee-afd5-0242ac130002-c442e852-dd40-11ee-afd5-0242ac130002"
-
+ENV TOMORROW_API_KEY=$TOMORROW_API_KEY
+ENV STORMGLASS_API_KEY=$STORMGLASS_API_KEY
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release
@@ -18,8 +20,6 @@ RUN dotnet build "Task3.csproj" -c $BUILD_CONFIGURATION -o /app/build
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "Task3.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
-
 
 FROM base AS final
 WORKDIR /app

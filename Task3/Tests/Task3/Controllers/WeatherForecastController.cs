@@ -60,4 +60,13 @@ public class WeatherForecastController : ControllerBase
 			return StatusCode(500, ex.Message);
 		}
 	}	
+	
+	/// <summary>
+	/// Get available services
+	/// </summary>
+	[HttpGet("sources")]
+	public IActionResult GetSources()
+	{
+		return Ok("Stormglass, Tommorow");
+	}
 }
