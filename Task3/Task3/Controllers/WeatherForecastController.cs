@@ -67,6 +67,6 @@ public class WeatherForecastController : ControllerBase
 	[HttpGet("sources")]
 	public IActionResult GetSources()
 	{
-		return Ok("Stormglass, Tommorow");
+		return Ok("Stormglass, Tommorrow");
 	}
 }
